@@ -39,6 +39,19 @@ export class App extends Component {
     this.setState({ filter: e.currentTarget.value });
   };
 
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+    if (contacts) {
+      this.setState({ contacts: contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   render() {
     const normalizedFilterSearch = this.state.filter.toLowerCase();
     const FoundedContact = this.state.contacts.filter(contact =>
